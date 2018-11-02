@@ -4,6 +4,6 @@ define(function() {
     var Utils = {}
 
     Utils.loadFileAsString = function(_path) {
-        
+        return 'loaded'
     }
 });
