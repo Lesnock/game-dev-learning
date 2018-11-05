@@ -21,6 +21,7 @@ requirejs.config({
         Save: 'classes/Save',
         SpriteSheet: 'classes/gfx/SpriteSheet',
         State: 'classes/states/State',
+        Utils: 'classes/Utils',
 
         //Tiles
         Tile: 'classes/tiles/Tile',
@@ -28,6 +29,7 @@ requirejs.config({
         GrassTile: 'classes/tiles/world1/GrassTile',
 
         //Libs
+        Ajax: 'node_modules/jquery/src/ajax.js',
         Class: 'vendor/Class',
     }
 })

@@ -1,7 +1,8 @@
 define([
     'Class',
-    'MapRegister'
-], function(Class, Mapping) {
+    'MapRegister',
+    'Utils'
+], function(Class, Mapping, Utils) {
     'use strict';
 
     var current = null
@@ -15,6 +16,8 @@ define([
             this.gameObjects = []
             this.width = 16
             this.height = 9
+
+            Utils.loadFileAsString('src/classes/levels/level1.lvl')
             
             this.loadLevel(_path)
         },
