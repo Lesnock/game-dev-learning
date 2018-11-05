@@ -63,6 +63,10 @@ define(['Class','Display', 'State', 'GameState', 'Input', 'Handler'], function(C
         },
     })
 
+    Game.getHandler = function() {
+        return handler
+    }
+
     //Static Methods
     function init() {
         display = new Display(title, width, height)

@@ -22,11 +22,6 @@ define([
         _super_render: function(_g) {
             //Runs ComponentsRender
             Object.keys(this.components).forEach((_name) => this[_name].render(_g))
-        },
-
-        //Apply the components
-        make: function() {
-
         }
     })
 

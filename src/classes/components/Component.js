@@ -5,7 +5,7 @@ define([
     
     var Component = Class.extend({
         init: function(_gameObject) {
-            this.gameObject = _gameObject
+            this.obj = _gameObject
         },
         update: function(_dt) {},
         render: function (_g) {}

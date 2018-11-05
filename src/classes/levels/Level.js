@@ -1,39 +1,63 @@
 define([
     'Class',
-    'TileRegister'
-], function(Class, Tile) {
+    'MapRegister'
+], function(Class, Mapping) {
     'use strict';
 
     var current = null
     
     var Level = Class.extend({
-        init: function(_path) {
+        init: function(_path, _handler) {
+            this.path = _path
+            this.handler = _handler
+
             this.tiles = []
             this.gameObjects = []
-            this.path = _path
-            this.width = 10
-            this.height = 1
+            this.width = 16
+            this.height = 9
+            
             this.loadLevel(_path)
         },
         loadLevel: function(_path) {
             for (let x = 0; x < this.width; x++) {
                 for (let y = 0; y < this.height; y++) {
-                    if (!this.tiles[x])
-                        this.tiles[x] = []
 
-                    this.tiles[x][y] = 0
+                    
+                    const tile = new (Mapping.tiles[0])
+                    tile.x = x
+                    tile.y = y
+
+                    this.tiles.push(tile)
                 }
             }
+            this.gameObjects.push(new (Mapping.gameObjects[0])(this.handler, 50, 60))
         },
         update: function(_dt) {
+            //Tiles
+            this.tiles.forEach((tile) => {
+                
+                tile._super_update(_dt)
+                tile.update(_dt)
+            })
 
+            //GameObjects
+            this.gameObjects.forEach((obj) => {
+                obj._super_update(_dt)
+                obj.update(_dt)
+            })
         },
         render: function(_g) {
-            for (let y = 0; y < this.height; y++) {
-                for (let x = 0; x < this.width; x++) {
-                    this.getTileByPosition(x, y).render(_g, x * Tile.DEFAULT_WIDTH, y * Tile.DEFAULT_HEIGHT)
-                }
-            }
+            //Tiles
+            this.tiles.forEach((tile) => {
+                tile._super_render(_g)
+                tile.render(_g)
+            })
+            
+            //GameObjects
+            this.gameObjects.forEach((obj) => {
+                obj._super_render(_g)
+                obj.render(_g)
+            })
         },
         getTileByPosition: function(_x, _y) {
             return Tile.getTile(this.tiles[_x][_y])

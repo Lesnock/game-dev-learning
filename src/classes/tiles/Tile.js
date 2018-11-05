@@ -6,14 +6,29 @@ define([
     var tiles = []
 
     var Tile = Class.extend({
-        init: function(_id, _texture) {
-            tiles[_id] = this
-            this.id = _id
-            this.texture = _texture            
+        components: {
+
+        },
+
+        //coords
+        x: 0,
+        y: 0,
+
+        init: function(_texture) {
+            this.texture = _texture
+
+            Object.keys(this.components).forEach((_name) => {
+                this[_name] = new (this.components[_name])(this)
+            })
         },
         update: function(_dt) {},
-        render: function(_g, _x, _y) {
-            _g.drawByCrop(this.texture, _x, _y, Tile.DEFAULT_WIDTH, Tile.DEFAULT_HEIGHT)
+        render: function(_g) {},
+        _super_update: function(_dt) {
+            Object.keys(this.components).forEach((_name) => this[_name].update())
+        },
+        _super_render: function(_g) {            
+            _g.drawByCrop(this.texture, this.x * Tile.DEFAULT_WIDTH, this.y * Tile.DEFAULT_HEIGHT, Tile.DEFAULT_WIDTH, Tile.DEFAULT_HEIGHT)
+            Object.keys(this.components).forEach((_name) => this[_name].render(_g))
         }
     })
 

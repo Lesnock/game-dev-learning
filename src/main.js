@@ -14,14 +14,18 @@ requirejs.config({
         Input: 'classes/inputs/Input',
         Launcher: 'classes/Launcher',
         Level: 'classes/levels/Level',
+        MapRegister: 'classes/MapRegister',
         MenuState: 'classes/states/MenuState',
         Player: 'classes/game_objects/Player',
         Rigidbody: 'classes/components/Rigidbody',
         Save: 'classes/Save',
         SpriteSheet: 'classes/gfx/SpriteSheet',
         State: 'classes/states/State',
+
+        //Tiles
         Tile: 'classes/tiles/Tile',
-        TileRegister: 'classes/tiles/TileRegister',
+        Tiles: 'classes/tiles',
+        GrassTile: 'classes/tiles/world1/GrassTile',
 
         //Libs
         Class: 'vendor/Class',
@@ -29,5 +33,5 @@ requirejs.config({
 })
 
 requirejs(['Launcher'], function(Launcher) {
-    var Launcher = new Launcher("Game", 800, 600)
+    var Launcher = new Launcher("Game", 1024, 576)
 })
