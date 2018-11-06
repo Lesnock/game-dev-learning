@@ -27,9 +27,10 @@ requirejs.config({
         Tile: 'classes/tiles/Tile',
         Tiles: 'classes/tiles',
         GrassTile: 'classes/tiles/world1/GrassTile',
+        GrayGrassTile: 'classes/tiles/world1/GrayGrassTile',
 
         //Libs
-        Ajax: 'node_modules/jquery/src/ajax.js',
+        jquery: '../node_modules/jquery/dist/jquery.min',
         Class: 'vendor/Class',
     }
 })

@@ -1,6 +1,6 @@
 define([
-    'Assets', 'GrassTile', 'Player'
-], function(Assets, GrassTile, Player) {
+    'Assets', 'GrassTile', 'GrayGrassTile', 'Player'
+], function(Assets, GrassTile, GrayGrassTile, Player) {
     'use strict';
     
     var path = 'res/gfx/tiles/'
@@ -26,8 +26,8 @@ define([
     // tilesWorld_1.tiles.forEach((tile, index) => Tile.add(index, tile))
 
     //Tiles
-    map.tiles[0] = GrassTile
-    //map.tiles[1] = [GrayGrassTile]
+    map.tiles[1] = GrassTile
+    map.tiles[2] = GrayGrassTile
 
     //GameObjects
     map.gameObjects[0] = Player

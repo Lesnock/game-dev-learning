@@ -1,8 +1,9 @@
 define([
     'Class',
+    'Tile', 
     'MapRegister',
     'Utils'
-], function(Class, Mapping, Utils) {
+], function(Class, Tile, Mapping, Utils) {
     'use strict';
 
     var current = null
@@ -12,54 +13,63 @@ define([
             this.path = _path
             this.handler = _handler
 
-            this.tiles = []
-            this.gameObjects = []
-            this.width = 16
-            this.height = 9
-
-            Utils.loadFileAsString('src/classes/levels/level1.lvl')
+            this.items = []
             
             this.loadLevel(_path)
         },
         loadLevel: function(_path) {
+            let file = Utils.loadFileAsString('src/classes/levels/level1.lvl')
+            let tokens = file.replace(/\n/g, ' ').split(' ')
+            
+            this.name   = tokens.shift().replace('_', ' ')
+            this.width  = parseInt(tokens.shift())
+            this.height = parseInt(tokens.shift())
+
             for (let x = 0; x < this.width; x++) {
+                
                 for (let y = 0; y < this.height; y++) {
 
-                    
-                    const tile = new (Mapping.tiles[0])
-                    tile.x = x
-                    tile.y = y
+                    let element = tokens[x + (y * this.width)]
 
-                    this.tiles.push(tile)
+                    //first char / type of item
+                    const type = (element != undefined) ? element.charAt(0) : 'none'
+
+                    element = (element != undefined) ? parseInt(element.substring(1)) : 't01'
+
+                    //Instantiate tile or game object
+                    switch (type) {
+                        case 't':
+                        var item = new (Mapping.tiles[element])
+                        break
+
+                        case 'g':
+                        var item = new (Mapping.gameObjects[element])(this.handler, 100, 100)
+                        break
+
+                        default:
+                        var item = new (Mapping.tiles[1])
+                    }
+                    
+                    item.x = x
+                    item.y = y
+
+                    this.items.push(item)
                 }
             }
-            this.gameObjects.push(new (Mapping.gameObjects[0])(this.handler, 50, 60))
         },
         update: function(_dt) {
             //Tiles
-            this.tiles.forEach((tile) => {
+            this.items.forEach((item) => {
                 
-                tile._super_update(_dt)
-                tile.update(_dt)
-            })
-
-            //GameObjects
-            this.gameObjects.forEach((obj) => {
-                obj._super_update(_dt)
-                obj.update(_dt)
+                item._super_update(_dt)
+                item.update(_dt)
             })
         },
         render: function(_g) {
             //Tiles
-            this.tiles.forEach((tile) => {
-                tile._super_render(_g)
-                tile.render(_g)
-            })
-            
-            //GameObjects
-            this.gameObjects.forEach((obj) => {
-                obj._super_render(_g)
-                obj.render(_g)
+            this.items.forEach((item) => {
+                item._super_render(_g)
+                item.render(_g)
             })
         },
         getTileByPosition: function(_x, _y) {
