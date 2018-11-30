@@ -4,8 +4,8 @@ define([
     'use strict';
     
     var Component = Class.extend({
-        init: function(_gameObject) {
-            this.obj = _gameObject
+        init: function(_object) {
+            this.obj = _object
         },
         update: function(_dt) {},
         render: function (_g) {}

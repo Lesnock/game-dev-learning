@@ -12,8 +12,8 @@ define([
             this.player = new Player(_handler, 10, 10)
 
             this.level = (!Save.getLevel()) 
-                        ? new Level('res/levels/level1.lvl', _handler) 
-                        : new Level(Save.getLevel())
+                        ? new Level('res/levels/level1.lvl', _handler)
+                        : new Level(Save.getLevel())            
         },
         update: function(_dt) {
             this.level.update(_dt)

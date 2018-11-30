@@ -1,7 +1,8 @@
-define(['Class','Display', 'State', 'GameState', 'Input', 'Handler'], function(Class, Display, State, InitalState, Input, Handler) {
+define(['Class','Display', 'State', 'GameState', 'Input', 'Handler', 'GameCamera'], 
+function(Class, Display, State, InitalState, Input, Handler, GameCamera) {
     'use strict';
 
-    var title, width, height, g, display, input, handler
+    var title, width, height, g, display, input, handler, gameCamera
 
     var initialState
 
@@ -61,6 +62,9 @@ define(['Class','Display', 'State', 'GameState', 'Input', 'Handler'], function(C
         getInput: function() {
             return input
         },
+        getGameCamera: function () {
+            return gameCamera
+        }
     })
 
     Game.getHandler = function() {
@@ -72,6 +76,7 @@ define(['Class','Display', 'State', 'GameState', 'Input', 'Handler'], function(C
         display = new Display(title, width, height)
         g = display.getGraphics()
         initialState = new InitalState(handler)
+        gameCamera = new GameCamera(handler, 0, 0)
         State.setState(initialState)
     }
 

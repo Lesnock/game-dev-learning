@@ -10,11 +10,11 @@ define([
             Rigidbody
         },
 
-        init: function() {
+        init: function (_handler) {
             this.assets = Assets.getAsset('tilesWordl_1')
-            this.texture = this.assets.sheet.crop(0, 0, Tile.DEFAULT_WIDTH, Tile.DEFAULT_HEIGHT)
+            this.texture = this.assets.sheet.crop(64, 0, Tile.DEFAULT_WIDTH, Tile.DEFAULT_HEIGHT)
 
-            this._super(this.texture)
+            this._super(_handler, this.texture)
         }
     })
 

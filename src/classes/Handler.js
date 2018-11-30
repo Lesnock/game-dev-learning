@@ -18,6 +18,9 @@ define([
         getInput: function() {
             return game.getInput()
         },
+        getGameCamera: function () {
+            return game.getGameCamera()
+        }
     })
 
     return Handler

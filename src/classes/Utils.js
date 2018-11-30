@@ -14,7 +14,7 @@ define(['jquery'], function($) {
                 string = content
             },
             error: function () {
-                alert('File ' + _path + 'could not be loaded')
+                alert('Utils.js says: \nFile ' + _path + ' could not be loaded')
             }
         })
 

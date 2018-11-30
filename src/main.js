@@ -3,10 +3,12 @@ requirejs.config({
     paths: {
         //Classes
         Assets: 'classes/gfx/Assets',
+        Collider: 'classes/components/Collider',
         Component: 'classes/components/Component',
         Creature: 'classes/game_objects/creatures/Creature',
         Display: 'classes/display/Display',
         Game: 'classes/Game',
+        GameCamera: 'classes/camera/GameCamera',
         GameObject: 'classes/game_objects/GameObject',
         GameState: 'classes/states/GameState',
         Handler: 'classes/Handler',

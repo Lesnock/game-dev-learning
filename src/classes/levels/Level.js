@@ -1,9 +1,9 @@
 define([
     'Class',
-    'Tile', 
-    'MapRegister',
+    'Tile',
+    'SpriteSheet',
     'Utils'
-], function(Class, Tile, Mapping, Utils) {
+], function(Class, Tile, SpriteSheet, Utils) {
     'use strict';
 
     var current = null
@@ -13,67 +13,54 @@ define([
             this.path = _path
             this.handler = _handler
 
-            this.items = []
+            this.tiles = []
             
             this.loadLevel(_path)
         },
         loadLevel: function(_path) {
-            let file = Utils.loadFileAsString('src/classes/levels/level1.lvl')
+            let file = Utils.loadFileAsString(_path)
             let tokens = file.replace(/\n/g, ' ').split(' ')
             
             this.name   = tokens.shift().replace('_', ' ')
+            this.sheet  = new SpriteSheet('level', 'res/gfx/tiles/' + tokens.shift())
+
             this.width  = parseInt(tokens.shift())
-            this.height = parseInt(tokens.shift())
+            this.height = parseInt(tokens.shift())            
 
             for (let x = 0; x < this.width; x++) {
                 
                 for (let y = 0; y < this.height; y++) {
+                    if (!this.tiles[x])
+                        this.tiles[x] = []
 
-                    let element = tokens[x + (y * this.width)]
-
-                    //first char / type of item
-                    const type = (element != undefined) ? element.charAt(0) : 'none'
-
-                    element = (element != undefined) ? parseInt(element.substring(1)) : 't01'
-
-                    //Instantiate tile or game object
-                    switch (type) {
-                        case 't':
-                        var item = new (Mapping.tiles[element])
-                        break
-
-                        case 'g':
-                        var item = new (Mapping.gameObjects[element])(this.handler, 100, 100)
-                        break
-
-                        default:
-                        var item = new (Mapping.tiles[1])
-                    }
-                    
-                    item.x = x
-                    item.y = y
-
-                    this.items.push(item)
+                    this.tiles[x][y] = tokens[x + (y * this.width)]
                 }
             }
         },
         update: function(_dt) {
-            //Tiles
-            this.items.forEach((item) => {
-                
-                item._super_update(_dt)
-                item.update(_dt)
-            })
         },
         render: function(_g) {
-            //Tiles
-            this.items.forEach((item) => {
-                item._super_render(_g)
-                item.render(_g)
-            })
-        },
-        getTileByPosition: function(_x, _y) {
-            return Tile.getTile(this.tiles[_x][_y])
+
+            //render just what appears in display
+            const xStart = parseInt(Math.max(0, 
+                this.handler.getGameCamera().getxOffset() / Tile.DEFAULT_WIDTH
+            ))
+            const xEnd = parseInt(Math.min(this.width, 
+                this.handler.getGameCamera().getxEnd() / Tile.DEFAULT_WIDTH
+            ))
+
+            const yStart = parseInt(Math.max(0, 
+                this.handler.getGameCamera().getyOffset() / Tile.DEFAULT_HEIGHT
+            ))
+            const yEnd = parseInt(Math.min(this.height,
+                this.handler.getGameCamera().getyEnd() / Tile.DEFAULT_HEIGHT
+            ))
+
+            for (let y = yStart; y < yEnd; y++) {                
+                for (let x = xStart; x < xEnd; x++) {
+                    Tile.getPositionByIndex(this.tiles[x, y])
+                }
+            }
         }
     })
 

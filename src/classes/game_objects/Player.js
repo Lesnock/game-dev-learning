@@ -1,8 +1,9 @@
 define([
     'GameObject',
-    'Assets',
-    'Rigidbody'
-], function(GameObject, Assets, Rigidbody) {
+    'SpriteSheet',
+    'Rigidbody', 
+    'Collider'
+], function(GameObject, SpriteSheet, Rigidbody, Collider) {
     'use strict';
     
     var width = 64, height = 64, speed = 200
@@ -10,7 +11,8 @@ define([
     var Player = GameObject.extend({
         //Components
         components: {
-            Rigidbody
+            Rigidbody,
+            Collider
         },
 
         //Constructor
@@ -18,17 +20,19 @@ define([
             this._super(_handler, _x, _y, width, height)
             this.speed = speed
 
-            //Asset
-            this.asset = new Assets('player', 'res/gfx/player.png')
-            this.asset.idle = this.asset.sheet.crop(0, 0, width, height)
+            //SpriteSheet
+            this.sheet = new SpriteSheet('player', 'res/gfx/player.png')
+            this.sheet.idle = this.sheet.crop(0, 0, width, height)
         },
         update: function(_dt) {
             if (this.handler.getInput().controller == 'keyboard') {
                 this.keyboardController(_dt)
             }
+
+            this.handler.getGameCamera().centerOnEntity(this)
         },
         render: function(_g) {
-            _g.drawByCrop(this.asset.idle, this.x, this.y, width, height)
+            _g.drawByCrop(this.sheet.idle, this.x - this.handler.getGameCamera().getxOffset(), this.y - this.handler.getGameCamera().getyOffset(), width, height)
         },
         //Controllers for keyboards
         keyboardController: function (_dt)
