@@ -44,8 +44,8 @@ define(['Class'], function(Class) {
     }
 
     //Crop a image
-    CanvasRenderingContext2D.prototype.drawByCrop = function(crop, _x, _y, _width, _height) {
-        this.drawImage(crop.sheet, crop.x, crop.y, crop.width, crop.height, _x, _y, _width, _height)
+    CanvasRenderingContext2D.prototype.drawByCrop = function(crop, _x, _y) {
+        this.drawImage(crop.sheet, crop.x, crop.y, crop.width, crop.height, _x, _y, crop.width, crop.height)
     }
 
     //Clear the canvas

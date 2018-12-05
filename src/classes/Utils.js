@@ -21,5 +21,9 @@ define(['jquery'], function($) {
         return string
     }
 
+    Utils.loadJS = function (_path) {
+        return import ('./' + _path)
+    }
+
     return Utils
 });

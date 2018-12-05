@@ -1,9 +1,9 @@
 define([
     'Class',
-    'Tile',
     'SpriteSheet',
+    'Tile',
     'Utils'
-], function(Class, Tile, SpriteSheet, Utils) {
+], function(Class, SpriteSheet, Tile, Utils) {
     'use strict';
 
     var current = null
@@ -17,12 +17,13 @@ define([
             
             this.loadLevel(_path)
         },
-        loadLevel: function(_path) {
+        loadLevel: async function(_path) {
             let file = Utils.loadFileAsString(_path)
             let tokens = file.replace(/\n/g, ' ').split(' ')
             
             this.name   = tokens.shift().replace('_', ' ')
             this.sheet  = new SpriteSheet('level', 'res/gfx/tiles/' + tokens.shift())
+            this.colliders = 
 
             this.width  = parseInt(tokens.shift())
             this.height = parseInt(tokens.shift())            
@@ -36,6 +37,9 @@ define([
                     this.tiles[x][y] = tokens[x + (y * this.width)]
                 }
             }
+
+            // const teste = await Utils.loadJS('levels/teste.js')
+            // teste.caio()
         },
         update: function(_dt) {
         },
@@ -57,12 +61,25 @@ define([
             ))
 
             for (let y = yStart; y < yEnd; y++) {                
-                for (let x = xStart; x < xEnd; x++) {
-                    Tile.getPositionByIndex(this.tiles[x, y])
+                for (let x = xStart; x < xEnd; x++) {                    
+                    //const positionInSheet = Level.getPositionByIndex(this.tiles[x, y])
+                    const pos = Level.getPositionByIndex(parseInt(this.tiles[x][y]))
+
+                    const crop = this.sheet.crop(pos.x, pos.y, Tile.DEFAULT_WIDTH, Tile.DEFAULT_HEIGHT)
+
+                    _g.drawByCrop(crop, x * Tile.DEFAULT_WIDTH, y * Tile.DEFAULT_HEIGHT)
                 }
             }
         }
     })
+
+    //Get the axis of a tile in a tile sheet by the index
+    Level.getPositionByIndex = function (_index) {
+        var y = Math.floor(_index / Tile.TILES_BY_ROW)    
+        var x = (_index - (y * Tile.TILES_BY_ROW)) * Tile.DEFAULT_WIDTH
+
+        return {x, y}
+    }
 
     //Static Methods
     Level.getLevel = function() {
